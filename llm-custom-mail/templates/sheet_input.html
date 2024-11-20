@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Automation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Email Automation Tool</h2>
+        <p>Select your data source and input your custom email prompt for generating personalized emails.</p>
+        
+        <form action="/send_emails" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="sheet_id">Google Sheet ID (optional)</label>
+                <input type="text" class="form-control" id="sheet_id" name="sheet_id" placeholder="Enter Google Sheet ID if using Google Sheets">
+            </div>
+
+            <div class="form-group">
+                <label for="file">CSV File (optional)</label>
+                <input type="file" class="form-control" id="file" name="file" accept=".csv">
+            </div>
+
+            <div class="form-group">
+                <label for="email_column">Email Column Name</label>
+                <input type="text" class="form-control" id="email_column" name="email_column" placeholder="Enter column name containing email addresses" required>
+            </div>
+
+            <div class="form-group">
+                <label for="user_prompt">Custom Email Prompt</label>
+                <textarea class="form-control" id="user_prompt" name="user_prompt" rows="6" placeholder="Enter prompt to generate email content (e.g., 'Write a reminder email to {Name} about their appointment on {Date} at {Location}')"></textarea>
+                <small class="form-text text-muted">
+                    Use placeholders (e.g., {Name}, {Location}, {Date}) for fields to replace with actual values from each row.
+                </small>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Emails</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+              <div class="alert alert-success mt-3">
+                  {{ messages[0] }}
+              </div>
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
